@@ -2,10 +2,15 @@
 Array.prototype.random = function () {
   return this[Math.floor((Math.random()*this.length))];
 }
+
 const Discord = require('discord.js');
+
 require('dotenv').config()
+
 const {id_dictionaries} = require('./dict')
+
 const dataLolos = require("./dataLolos")
+
 
 // create a new Discord client
 const client = new Discord.Client();
@@ -18,48 +23,55 @@ client.once('ready', () => {
 
 // login to Discord with your app's token
 client.login(process.env.Token);
-client.on('message', message => {
-  const word = message.content.toLowerCase()
-  // console.log(message.channel)
-  if (word.includes('sg') && word.includes('-') && message.channel.id == '809355029714436116'){
-    if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
-    else {
-      // let SGRole = message.guild.roles.find('name', "SG AI");
-      const MSG = message.content.split("-")
-      if(dataLolos[MSG[MSG.length -1]]){
-        const Name = dataLolos[MSG[MSG.length -1]].nama
+
+client.on('message', message => { 
+  let message_check = message.content.toLowerCase()
+  if (message.channel.id == '809355029714436116') { // Untuk Channel Perkenalan
+
+    const word = message_check
+
+    if (word.includes('sg') && word.includes('-')){
+      if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
+      else {
+        // let SGRole = message.guild.roles.find('name', "SG AI");
+        const MSG = message.content.split("-")
+        if(dataLolos[MSG[MSG.length -1]]){
+          const Name = dataLolos[MSG[MSG.length -1]].nama
+          message.member.setNickname(Name)
+          message.member.roles.add("808672118534570014");
+          message.reply("Selamat datang di Discord Artificial Intelligence Laboratory")
+        }else{
+          message.reply("Maaf NIM tidak terdaftar")
+        }
+      }
+    }else if (word.includes('fg') && word.includes('-')){
+      if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
+      else {
+        // let FGRole = message.guild.roles.find('name', "FG AI");
+        const MSG = message.content.split("-")
+        if(dataLolos[MSG[MSG.length -1]]){
+          const Name = dataLolos[MSG[MSG.length -1]].nama
+          message.member.setNickname(Name)
+          message.member.roles.add("808672392515813396");
+          message.reply("Selamat datang di Discord Artificial Intelligence Laboratory")
+        }else{
+          message.reply("Maaf NIM tidak terdaftar")
+        }
+      }
+    }else if (word.includes('alumni') && word.includes('-')){
+      if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
+      else {
+        // let FGRole = message.guild.roles.find('name', "FG AI");
+        const MSG = message.content.split("-")
+        const Name = MSG[0]
         message.member.setNickname(Name)
-        message.member.roles.add("808672118534570014");
-        message.reply("Selamat datang di Discord Artificial Intelligence Laboratory")
-      }else{
-        message.reply("Maaf NIM tidak terdaftar")
+        message.member.roles.add("815902752206094336");
+        message.reply("Selamat datang kakak alumni di Discord Artificial Intelligence Laboratory")
       }
     }
-  }else if (word.includes('fg') && word.includes('-') && message.channel.id == '809355029714436116'){
-    if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
-    else {
-      // let FGRole = message.guild.roles.find('name', "FG AI");
-      const MSG = message.content.split("-")
-      if(dataLolos[MSG[MSG.length -1]]){
-        const Name = dataLolos[MSG[MSG.length -1]].nama
-        message.member.setNickname(Name)
-        message.member.roles.add("808672392515813396");
-        message.reply("Selamat datang di Discord Artificial Intelligence Laboratory")
-      }else{
-        message.reply("Maaf NIM tidak terdaftar")
-      }
-    }
-  }else if (word.includes('alumni') && word.includes('-') && message.channel.id == '809355029714436116'){
-    if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send('I don\'t have permission to change your nickname!')
-    else {
-      // let FGRole = message.guild.roles.find('name', "FG AI");
-      const MSG = message.content.split("-")
-      const Name = MSG[0]
-      message.member.setNickname(Name)
-      message.member.roles.add("815902752206094336");
-      message.reply("Selamat datang kakak alumni di Discord Artificial Intelligence Laboratory")
-    }
-  }else if (word.includes("eliz4")){
+
+  } else if (word.includes("eliz4")){ // Kalau si Raisa dipanggil
+
     const words = word.slice(6)
     for (let i = 0; i < id_dictionaries.length; i++) {
       const verb = words.split(" ")
@@ -70,7 +82,8 @@ client.on('message', message => {
         break
       }
     }
-  }else if (message.channel.id == '820201188267130950' && message.author.id != "809329609182412810" && message.author.id != "159985870458322944"){
+
+  } else if (message.channel.id == '820201188267130950' && message.author.id != "809329609182412810" && message.author.id != "159985870458322944"){ //Untuk Eliza Room
     const words = word
     for (let i = 0; i < id_dictionaries.length; i++) {
       const verb = words.split(" ")
@@ -81,6 +94,8 @@ client.on('message', message => {
         break
       }
     }
+  } else {
+
   }
   
 });
